@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <form class="" action="" method="post">
+      <input type="radio" id='w' name="transaction">
+      <label for="transaction">Withdraw</label><br>
+      <input type="number" id='amt' name="" value="1000.00"><br>
+      <input type="radio" id='d' name="transaction">
+      <label for="transaction">Deposit</label>
+      <input type="number" id='amt1' name="" value="1000.00"><br><br>
+      <button type="button" name="button" onclick="account()">Confirm</button>
+    </form>
+    <div class="" id='toBeReplaced'>
+    </div>
+    <script type="text/javascript">
+      var bal = 8000;
+      var transactions = [];
+      function account() {
+        const option_w = document.getElementById('w')
+        const option_d = document.getElementById('d')
+        let w_amt = document.getElementById('amt')
+        let d_amt = document.getElementById('amt1')
+
+        if (option_w.checked)
+        {
+          bal -= w_amt.value;
+          transactions.push("-"+w_amt.value);
+        }
+        if (option_d.checked)
+        {
+          bal += parseFloat(d_amt.value);
+          transactions.push("+"+d_amt.value);
+        }
+
+
+        const rep = document.getElementById('toBeReplaced')
+        rep.innerHTML = "<h1>Your current balance is: $ "+bal+".</h1><br>"
+        rep.innerHTML += "<h2>Your transaction history: <br></h2>"
+        for (var t=0; t<transactions.length; t++)
+        {
+          rep.innerHTML += "<h1>"+transactions[t]+"</h1>"
+        }
+      }
+    </script>
+
+  </body>
+</html>

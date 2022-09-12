@@ -1,0 +1,46 @@
+body {
+  background-color: beige;
+  font-family: fantasy;
+}
+
+li a {
+  color: silver;
+}
+
+input {
+  height: 100px;
+  width: 270px;
+  font-size: 40px;
+}
+button {
+  background-color: navy;
+  color: white;
+}
+
+.topnav {
+  background-color: silver;
+  color: white;
+}
+
+.topnav a:link {
+  padding: 30px;
+  text-decoration: none;
+}
+
+.topnav a.active {
+  background-color: violet;
+  color: white;
+}
+
+.topnav a:hover {
+  background-color: navy;
+  color: silver;
+}
+
+.inprogress {
+  background-color: silver;
+}
+
+.done {
+  background-color: silver;
+}
