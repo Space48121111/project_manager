@@ -45,7 +45,7 @@ function instruction() {
   ctx.fillStyle = 'black';
   ctx.lineWidth = 1;
   ctx.font = '25px verdana';
-  ctx.fillText("Use the key 'wasd' to maneuver", 0, 30);
+  ctx.fillText("Use keys 'wasd' to maneuver", 0, 30);
 }
 
 function draw() {
