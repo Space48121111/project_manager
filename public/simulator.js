@@ -48,6 +48,20 @@ function instruction() {
   ctx.fillText("Use keys 'wasd' to maneuver", 0, 30);
 }
 
+function speedometer() {
+  ctx.beginPath();
+  ctx.strokeStyle = 'black';
+  ctx.arc(canvas.width/2, 70, 50, 2*Math.PI, 0);
+  ctx.stroke();
+
+  ctx.fillStyle = 'green';
+  ctx.lineWidth = 1;
+  ctx.font = '25px verdana';
+  ctx.textAlign = 'center';
+  ctx.fillText(parseInt(carVelocityY), canvas.width/2, 70);
+
+}
+
 function draw() {
   ctx.fillStyle = 'silver';
   ctx.beginPath();
@@ -57,19 +71,24 @@ function draw() {
   drawTrees();
   drawCar();
   instruction();
+  speedometer();
 
 }
 
 function updateCar() {
-  carVelocityX *= carDeaccelerationX;
-  carVelocityY *= carDeaccelerationY;
+  carVelocityY = parseInt(carVelocityY);
   if (isUpPressed == true)
   {
     carVelocityY += carAccelerationY;
   } else if (isDownPressed == true)
   {
     carVelocityY -= carAccelerationY;
+
   }
+  else {
+    carVelocityY *= carDeaccelerationY;
+  }
+
   if (isLeftPressed == true)
   {
     carVelocityX += carAccelerationX;
@@ -77,6 +96,9 @@ function updateCar() {
   } else if (isRightPressed == true)
   {
     carVelocityX -= carAccelerationX;
+  }
+  else {
+    carVelocityX *= carDeaccelerationX;
   }
   carX -= carVelocityX;
   carY += carVelocityY;

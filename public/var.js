@@ -7,8 +7,8 @@ let carX = 0;
 let carY = 0;
 let carVelocityX = 0;
 let carVelocityY = 0;
-let carAccelerationX = 1.5;
-let carAccelerationY = 1.5;
+let carAccelerationX = 2.5;
+let carAccelerationY = 2.5;
 let carDeaccelerationX = 0.8;
 let carDeaccelerationY = 0.8;
 
