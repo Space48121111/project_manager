@@ -3,8 +3,8 @@ const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
 canvas.width = self.innerWidth - 15;
-const carImage = new Image(300, 300);
-carImage.src = "cybertruck-12.png";
+const carImage = new Image(150, 150);
+carImage.src = "car.png";
 
 const treeImage = new Image(50, 50);
 treeImage.src = "tree.png";
