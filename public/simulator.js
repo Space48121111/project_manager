@@ -77,6 +77,10 @@ function draw() {
 
 function updateCar() {
   carVelocityY = parseInt(carVelocityY);
+  if (UsesTouch == true)
+  {
+    carVelocityY = canvas.height/2 - playerY;
+  }
   if (isUpPressed == true)
   {
     carVelocityY += carAccelerationY;
@@ -117,6 +121,19 @@ function frame() {
   updateCar();
   draw();
 }
+
+function touchHandler(e) {
+  if (e.touches) {
+    // localize positions
+    playerX = e.touches[0].pageX - canvas.offsetLeft;
+    playerY = e.touches[0].pageY - canvas.offsetTop;
+    // output.textContent = `Touch:  x: ${playerX}, y: ${playerY}`;
+    e.preventDefault();
+    UsesTouch = true;
+  }
+}
+document.addEventListener("touchstart", touchHandler);
+document.addEventListener("touchmove", touchHandler);
 
 document.addEventListener('keydown', (event) => {
   if (event.key === "w") {
