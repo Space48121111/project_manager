@@ -2,7 +2,6 @@ const canvas = document.getElementById('canvas');
 // rendering context for canvas
 const ctx = canvas.getContext('2d');
 
-canvas.width = self.innerWidth - 15;
 const carImage = new Image(150, 150);
 carImage.src = "car.png";
 
@@ -42,6 +41,13 @@ function drawTrees() {
   }
 }
 
+function instruction() {
+  ctx.fillStyle = 'black';
+  ctx.lineWidth = 1;
+  ctx.font = '25px verdana';
+  ctx.fillText("Use the key 'wasd' to maneuver", 0, 30);
+}
+
 function draw() {
   ctx.fillStyle = 'silver';
   ctx.beginPath();
@@ -50,6 +56,7 @@ function draw() {
   drawRoad();
   drawTrees();
   drawCar();
+  instruction();
 
 }
 
@@ -84,6 +91,7 @@ function updateCar() {
 }
 
 function frame() {
+  canvas.width = self.innerWidth - 15;
   updateCar();
   draw();
 }

@@ -9,35 +9,15 @@
     <h1>Time is the ultimate currency</h1>
     <center>
     <div class="topnav" id="nav">
-      <a href="index.html" class="active">Home</a>
-      <a href="car-simulator.html">Car Simulator</a>
+      <a href="home.html" class="active">Home</a>
+      <a href="index.html">Car Simulator</a>
     </div>
     </center>
-    <table cellpadding="20">
-      <tr>
-        <td>
-          <form class="add-todo">
-            <input type="text" id="c-inp" name="add-todo" value="todo"><br>
-            <button type="button" id="c-btn" name="add-button" onclick="addTodo()">TODO</button>
-          </form>
-          <div class="todo" id="todo">
-          </div>
-        </td>
-        <td style="vertical-align: top">
-        <h2><b>In progress: </b></h2>
-        <div class="inprogress" id="inprogress">
-        </div>
-        </td>
-        <td style="vertical-align: top">
-        <h2><b>Done: </b></h2>
-
-        <div class="done" id="done">
-        </div>
-       </td>
-      </tr>
-    </table>
-
-    <script src="todo.js">
+    <canvas id="canvas" width="100%" height="500">
+    </canvas>
+    <script src="car_simulator_var.js">
+    </script>
+    <script src="car_simulator.js">
     </script>
 
   </body>
