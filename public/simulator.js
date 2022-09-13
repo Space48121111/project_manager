@@ -46,6 +46,8 @@ function instruction() {
   ctx.lineWidth = 1;
   ctx.font = '25px verdana';
   ctx.fillText("Use keys 'wasd' to maneuver", 0, 30);
+  ctx.fillText("Or drag the car.", 0, 50);
+
 }
 
 function speedometer() {
@@ -77,17 +79,22 @@ function draw() {
 
 function updateCar() {
   carVelocityY = parseInt(carVelocityY);
-  if (UsesTouch == true)
+  if (usesTouch == true)
   {
-    carVelocityY = canvas.height/2 - playerY;
+    if (playerY > canvas.height/2)
+    {
+      carVelocityY += carAccelerationY;
+    } else if (playerY < canvas.height/2)
+    {
+      carVelocityY -= carAccelerationY;
+    }
   }
-  if (isUpPressed == true)
+  else if (isUpPressed == true)
   {
     carVelocityY += carAccelerationY;
   } else if (isDownPressed == true)
   {
     carVelocityY -= carAccelerationY;
-
   }
   else {
     carVelocityY *= carDeaccelerationY;
@@ -129,11 +136,19 @@ function touchHandler(e) {
     playerY = e.touches[0].pageY - canvas.offsetTop;
     // output.textContent = `Touch:  x: ${playerX}, y: ${playerY}`;
     e.preventDefault();
-    UsesTouch = true;
+    usesTouch = true;
   }
 }
+
+function handleEnd(e) {
+  if (!e.touches) {
+    usesTouch = false;
+  }
+}
+
 document.addEventListener("touchstart", touchHandler);
 document.addEventListener("touchmove", touchHandler);
+document.addEventListener("touchend", handleEnd);
 
 document.addEventListener('keydown', (event) => {
   if (event.key === "w") {

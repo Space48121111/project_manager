@@ -17,4 +17,4 @@ const roadWidth = 150;
 
 let playerX = 0;
 let playerY = 0;
-let UsesTouch = false;
+let usesTouch = false;
