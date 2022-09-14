@@ -2,6 +2,7 @@
 
 
 # 4th-edition
+![4th-edition-1](https://github.com/Space48121111/project_manager/blob/master/screenshots/Screen%20Shot%202022-09-14%20at%2018.55.56.png)
 ![4th-edition](https://github.com/Space48121111/project_manager/blob/master/screenshots/Screen%20Shot%202022-09-14%20at%2018.36.54.png)
 
 # 3rd-edition
