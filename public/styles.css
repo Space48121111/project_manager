@@ -44,3 +44,12 @@ button {
 .done {
   background-color: silver;
 }
+
+.dot {
+  background-color: beige;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+}

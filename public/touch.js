@@ -27,7 +27,12 @@ document.addEventListener('touchend', e => {
   })
 })
 
-
+document.addEventListener('touchcancel', e => {
+  [...e.changedTouches].forEach(touch => {
+    const dot = document.getElementById(touch.identifier)
+    dot.remove()
+  })
+})
 
 
 

@@ -45,8 +45,8 @@ function instruction() {
   ctx.fillStyle = 'black';
   ctx.lineWidth = 1;
   ctx.font = '25px verdana';
-  ctx.fillText("Use keys 'wasd' to maneuver.", 0, 30);
-  ctx.fillText("Or drag the car.", 0, 50);
+  ctx.fillText("Use keys 'wasd' to maneuver", 0, 30);
+  ctx.fillText("Or drag/tap ", 0, 50);
 
 }
 
@@ -79,17 +79,20 @@ function draw() {
 
 function updateCar() {
   carVelocityY = parseInt(carVelocityY);
-  if (usesTouch == true)
+
+  if (usesTouch = true)
   {
-    if (playerY > canvas.height/2)
+    if (deltaY < 0)
     {
       carVelocityY += carAccelerationY;
-    } else if (playerY < canvas.height/2)
+    }
+    if (deltaY > 0)
     {
       carVelocityY -= carAccelerationY;
     }
   }
-  else if (isUpPressed == true)
+
+  if (isUpPressed == true)
   {
     carVelocityY += carAccelerationY;
   } else if (isDownPressed == true)
@@ -99,6 +102,7 @@ function updateCar() {
   else {
     carVelocityY *= carDeaccelerationY;
   }
+
 
   if (isLeftPressed == true)
   {
@@ -129,26 +133,62 @@ function frame() {
   draw();
 }
 
-function touchHandler(e) {
-  if (e.touches) {
-    // localize positions
-    playerX = e.touches[0].pageX - canvas.offsetLeft;
-    playerY = e.touches[0].pageY - canvas.offsetTop;
-    // output.textContent = `Touch:  x: ${playerX}, y: ${playerY}`;
-    e.preventDefault();
-    usesTouch = true;
-  }
-}
+document.addEventListener('touchstart', e => {
+  [...e.changedTouches].forEach(touch => {
+    const dot = document.createElement('div')
+    dot.classList.add('dot')
+    dot.style.top = `${touch.pageY}px`
+    dot.style.left = `${touch.pageX}px`
+    dot.id = touch.identifier
+    document.body.append(dot)
+    clientX = touch.clientX
+    clientY = touch.clientY
+  })
+}, false)
 
-function handleEnd(e) {
-  if (!e.touches) {
-    usesTouch = false;
-  }
-}
+document.addEventListener('touchmove', e => {
+  // console.log(e);
+  // console.log('Move');
+  e.preventDefault();
+  [...e.changedTouches].forEach(touch => {
+    const dot = document.getElementById(touch.identifier)
+    dot.style.top = `${touch.pageY}px`
+    dot.style.left = `${touch.pageX}px`
+    playerY = parseInt(touch.pageY - canvas.offsetTop)
+    playerX = parseInt(touch.pageX - canvas.offsetLeft)
+    // console.log(`Touch:  x: ${playerX}px, y: ${playerY}px`)
+    usesTouch = true
+  })
+}, false)
 
-document.addEventListener("touchstart", touchHandler);
-document.addEventListener("touchmove", touchHandler);
-document.addEventListener("touchend", handleEnd);
+document.addEventListener('touchend', e => {
+
+
+  // Compute the change in X and Y coordinates.
+  // The first touch point in the changedTouches
+  // list is the touch point that was just removed from the surface.
+
+  // Process the data…
+  [...e.changedTouches].forEach(touch => {
+    const dot = document.getElementById(touch.identifier)
+    dot.remove()
+    deltaX = parseInt(touch.clientX - clientX);
+    deltaY = parseInt(touch.clientY - clientY);
+    console.log('myDelta '+deltaX+' '+ deltaY)
+    usesTouch = false
+  })
+}, false);
+
+document.addEventListener('touchcancel', e => {
+  [...e.changedTouches].forEach(touch => {
+    const dot = document.getElementById(touch.identifier)
+    dot.remove()
+    usesTouch = false
+
+  })
+})
+
+
 
 document.addEventListener('keydown', (event) => {
   if (event.key === "w") {
@@ -178,4 +218,4 @@ document.addEventListener('keyup', (event) => {
 
 setInterval(function(){
   frame()
-}, 50);
+}, 100);
