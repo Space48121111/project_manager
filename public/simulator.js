@@ -46,7 +46,7 @@ function instruction() {
   ctx.lineWidth = 1;
   ctx.font = '25px verdana';
   ctx.fillText("Use keys 'wasd' to maneuver", 0, 30);
-  ctx.fillText("Or drag/tap ", 0, 50);
+  ctx.fillText("Or drag/tap to start/stop", 0, 50);
 
 }
 
