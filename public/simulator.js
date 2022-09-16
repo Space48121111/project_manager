@@ -64,6 +64,35 @@ function speedometer() {
 
 }
 
+function voltageRegulator() {
+  ctx.beginPath();
+  ctx.strokeStyle = 'black';
+  ctx.arc(canvas.width-300, 70, 50, 2*Math.PI, 0);
+  ctx.stroke();
+
+  ctx.fillStyle = 'green';
+  ctx.lineWidth = 1;
+  ctx.font = '25px verdana';
+  ctx.textAlign = 'center';
+  ctx.fillText('110V', canvas.width - 300, 70);
+
+}
+
+function rangeAnxiety() {
+  ctx.beginPath();
+  ctx.strokeStyle = 'black';
+  ctx.arc(canvas.width-300, 270, 50, 2*Math.PI, 0);
+  ctx.stroke();
+
+  ctx.fillStyle = 'green';
+  ctx.lineWidth = 1;
+  ctx.font = '25px verdana';
+  ctx.textAlign = 'center';
+  ctx.fillText('80%', canvas.width - 300, 270);
+
+}
+
+
 function draw() {
   ctx.fillStyle = 'silver';
   ctx.beginPath();
@@ -72,8 +101,12 @@ function draw() {
   drawRoad();
   drawTrees();
   drawCar();
+
   instruction();
+  rangeAnxiety();
+  voltageRegulator();
   speedometer();
+
 
 }
 
