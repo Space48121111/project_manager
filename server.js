@@ -151,14 +151,14 @@ app.get('/next*', async function(req, res) {
   }
 });
 
-
-
-app.listen(process.env.PORT || 3000,
-  () => console.log('Server is running.'));
 //
-// app.listen(8000,
-//   () => console.log('Server is up and running.'));
 //
+// app.listen(process.env.PORT || 3000,
+//   () => console.log('Server is running.'));
+// //
+app.listen(8000,
+  () => console.log('Server is up and running.'));
+
 
 
 

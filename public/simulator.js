@@ -168,6 +168,7 @@ function frame() {
 }
 
 document.addEventListener('touchstart', e => {
+  // e.preventDefault(); { passive: false }
   [...e.changedTouches].forEach(touch => {
     const dot = document.createElement('div')
     dot.classList.add('dot')
@@ -177,13 +178,12 @@ document.addEventListener('touchstart', e => {
     document.body.append(dot)
     clientX = touch.clientX
     clientY = touch.clientY
-  })
+  } )
 }, false)
 
 document.addEventListener('touchmove', e => {
   // console.log(e);
   // console.log('Move');
-  e.preventDefault();
   [...e.changedTouches].forEach(touch => {
     const dot = document.getElementById(touch.identifier)
     dot.style.top = `${touch.pageY}px`
@@ -199,7 +199,6 @@ document.addEventListener('touchmove', e => {
 }, false)
 
 document.addEventListener('touchend', e => {
-
 
   // Compute the change in X and Y coordinates.
   // The first touch point in the changedTouches
