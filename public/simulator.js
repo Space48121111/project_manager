@@ -113,7 +113,7 @@ function draw() {
 function updateCar() {
   carVelocityY = parseInt(carVelocityY);
 
-  if (usesTouch = true)
+  if (usesTouch == true)
   {
     if (deltaY < 0)
     {
@@ -132,7 +132,8 @@ function updateCar() {
   {
     carVelocityY -= carAccelerationY;
   }
-  else {
+  else if (usesTouch == false)
+  {
     carVelocityY *= carDeaccelerationY;
   }
 
@@ -190,6 +191,9 @@ document.addEventListener('touchmove', e => {
     playerY = parseInt(touch.pageY - canvas.offsetTop)
     playerX = parseInt(touch.pageX - canvas.offsetLeft)
     // console.log(`Touch:  x: ${playerX}px, y: ${playerY}px`)
+    deltaX = parseInt(touch.clientX - clientX);
+    deltaY = parseInt(touch.clientY - clientY);
+    // console.log('myDeltaMoves '+deltaX+' '+ deltaY)
     usesTouch = true
   })
 }, false)
@@ -207,7 +211,7 @@ document.addEventListener('touchend', e => {
     dot.remove()
     deltaX = parseInt(touch.clientX - clientX);
     deltaY = parseInt(touch.clientY - clientY);
-    console.log('myDelta '+deltaX+' '+ deltaY)
+    // console.log('myDeltaEnds '+deltaX+' '+ deltaY)
     usesTouch = false
   })
 }, false);
