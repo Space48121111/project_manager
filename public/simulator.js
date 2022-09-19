@@ -17,6 +17,10 @@ let radiusSize = 35;
 var batteryValue = localStorage.getItem('battery');
 console.log("Battery value is: " + batteryValue);
 
+function useCheats() {
+	batteryValue = "true";
+}
+
 function drawCar() {
   ctx.drawImage(carImage, canvas.width/2-carImage.width/2+carX, canvas.height/2-carImage.height/2, carImage.width, carImage.height);
 }
@@ -239,7 +243,7 @@ function frame() {
 
 document.addEventListener('touchstart', e => {
   [...e.changedTouches].forEach(touch => {
-    e.preventDefault();
+    //e.preventDefault();
     const dot = document.createElement('div')
     dot.classList.add('dot')
     dot.style.top = `${touch.pageY}px`
