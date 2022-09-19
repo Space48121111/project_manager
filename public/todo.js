@@ -8,6 +8,7 @@ function update(data, status, divId) {
   let str = '';
   str += '<ul>';
 
+	/*
   // stringify for db: buttons need to be created in js file
   if (divId == 'todo')
   {
@@ -21,15 +22,17 @@ function update(data, status, divId) {
   }
   else if (divId == 'done')
   {
-    str += '&nbsp;&nbsp;&nbsp;&nbsp;<button class="del" type="button" id="del_text_db" name="del_text" onclick="delText_db()">Del</button>'
+    str += '&nbsp;&nbsp;&nbsp;&nbsp;<button class="del" type="button" id="del_text_db" name="del_text" onclick="delText()">Del</button>'
   }
+  */
 
   // Object.values(data).forEach(val => console.log(val));
-  for (let i=0; i<data.length; i++) {
+  for (let i=0; i<data.length; i++) 
+  {
     let stat = data[i].status
     let inp = data[i].inp
-    console.log('data inp'+inp)
-    console.log('data stat'+stat)
+    //console.log('data inp'+inp)
+    //console.log('data stat'+stat)
 
 
     if (stat != undefined && stat != status)
@@ -41,11 +44,11 @@ function update(data, status, divId) {
     // append buttons
     if (d == true)
     {
-      str += '&nbsp;<button id="del" type="button" onclick=del_i('+inp+')>-</button>'
+      str += '&nbsp;<button id="del" type="button" onclick=del_i('+i+')>-</button>'
     }
     if (next == true)
     {
-      str += '&nbsp;<button id="next" type="button" onclick=nextProcedure_i('+status+')>-></button>'
+      str += '&nbsp;<button id="next" type="button" onclick=nextProcedure_i('+i+')>-></button>'
     }
 
    }
@@ -56,15 +59,15 @@ function update(data, status, divId) {
 
 function load() {
   let storage = localStorage.getItem('list');
-  console.log(' Full storage '+storage);
+  //console.log(' Full storage '+storage);
 
   if (storage != null)
   {
-    let s = JSON.parse(storage);
+    list = JSON.parse(storage);
 
-    update(s, 0, 'todo');
-    update(s, 1, 'inprogress');
-    update(s, 2, 'done');
+    update(list, 0, 'todo');
+    update(list, 1, 'inprogress');
+    update(list, 2, 'done');
   }
 
 
@@ -84,7 +87,6 @@ function addTodo() {
     {
       inp: inp,
       time: new Date(),
-      id: id++,
       status: 0,
     }
 
@@ -113,6 +115,7 @@ document.addEventListener('keydown', (event) => {
 
 function delText() {
     d = !d;
+	next = false;
     let d_text = document.getElementById('del_text');
     if (d)
     {
@@ -137,6 +140,7 @@ function del_i(i) {
 
 function nextProcedure() {
     next = !next;
+	d = false;
     let n_text = document.getElementById('next_text');
     if (next)
     {
@@ -151,16 +155,11 @@ function nextProcedure() {
 }
 
 
-function nextProcedure_i(s) {
-  if (s == undefined)
-  {
-    s = 0;
-  }
-  else
-  {
-    s += 1;
-  }
-  console.log('Updated to local '+s)
+function nextProcedure_i(i) {
+  
+  
+  list[i].status++;
+  console.log('Updated to local of '+i + '/' + list.length)
   localStorage.setItem('list', JSON.stringify(list));
 
   updating = true;
