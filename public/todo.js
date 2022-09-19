@@ -12,9 +12,23 @@ function update(data, status, divId) {
   // stringify for db: buttons need to be created in js file
   if (divId == 'todo')
   {
-    str += '&nbsp;&nbsp;&nbsp;&nbsp;<button class="next" type="button" id="next_text" name="next_text" onclick="nextProcedure()">Next</button>'
-    str += '&nbsp;&nbsp;&nbsp;&nbsp;<button class="del" type="button" id="del_text" name="del_text" onclick="delText()">Del</button>'
-
+	  if (next)
+	  {
+		 str += '&nbsp;&nbsp;&nbsp;&nbsp;<button class="next" type="button" id="next_text" name="next_text" onclick="nextProcedure()">Done</button>'
+	  }	  
+	  else 
+	  {
+		 str += '&nbsp;&nbsp;&nbsp;&nbsp;<button class="next" type="button" id="next_text" name="next_text" onclick="nextProcedure()">Next</button>'
+	  }
+	
+		if (d)
+		{
+			str += '&nbsp;&nbsp;&nbsp;&nbsp;<button class="del" type="button" id="del_text" name="del_text" onclick="delText()">Done</button>'
+		}
+		else 
+		{
+			str += '&nbsp;&nbsp;&nbsp;&nbsp;<button class="del" type="button" id="del_text" name="del_text" onclick="delText()">Del</button>'
+		}
   }
   else if (divId == 'inprogress')
   {
@@ -112,12 +126,10 @@ document.addEventListener('keydown', (event) => {
   }
 }, false);
 
-
-function delText() {
-    d = !d;
-	next = false;
-    let d_text = document.getElementById('del_text');
-    if (d)
+function updateButtons()
+{
+	let d_text = document.getElementById('del_text');
+	if (d)
     {
       d_text.innerHTML = "Done"
     }
@@ -125,6 +137,22 @@ function delText() {
     {
       d_text.innerHTML = "Del"
     }
+	
+	let n_text = document.getElementById('next_text');
+	if (next)
+    {
+      n_text.innerHTML = "Done"
+    }
+    else
+    {
+      n_text.innerHTML = "Next"
+    }	
+}
+
+function delText() {
+    d = !d;
+	next = false;
+    updateButtons();
     updating = true;
 
 }
@@ -141,23 +169,12 @@ function del_i(i) {
 function nextProcedure() {
     next = !next;
 	d = false;
-    let n_text = document.getElementById('next_text');
-    if (next)
-    {
-      n_text.innerHTML = "Done"
-    }
-    else
-    {
-      n_text.innerHTML = "Next"
-    }
-
+    updateButtons();
     updating = true;
 }
 
 
 function nextProcedure_i(i) {
-  
-  
   list[i].status++;
   console.log('Updated to local of '+i + '/' + list.length)
   localStorage.setItem('list', JSON.stringify(list));
