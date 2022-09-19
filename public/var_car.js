@@ -7,10 +7,11 @@ let carX = 0;
 let carY = 0;
 let carVelocityX = 0;
 let carVelocityY = 0;
-let carAccelerationX = 1.5;
+let carAccelerationX = 0.5;
 let carAccelerationY = 2.5;
 let carDeaccelerationX = 0.8;
 let carDeaccelerationY = 0.8;
+let maxSpeed = 100;
 
 let distanceOfTrees = 150;
 const roadWidth = 150;
@@ -23,3 +24,6 @@ let clientX
 let clientY
 let deltaX;
 let deltaY;
+
+let battery = 100;
+let batteryDrainScale = 0.001;

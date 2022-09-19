@@ -14,6 +14,9 @@ let fontSize = 25;
 let radiusBase = 1000;
 let radiusSize = 35;
 
+var batteryValue = localStorage.getItem('battery');
+console.log("Battery value is: " + batteryValue);
+
 function drawCar() {
   ctx.drawImage(carImage, canvas.width/2-carImage.width/2+carX, canvas.height/2-carImage.height/2, carImage.width, carImage.height);
 }
@@ -66,7 +69,7 @@ function speedometer() {
   ctx.lineWidth = 1;
   ctx.font = getFont();
   ctx.textAlign = 'center';
-  ctx.fillText(parseInt(carVelocityY), canvas.width/2, 70);
+  ctx.fillText(parseInt(carVelocityY * 2), canvas.width/2, 70);
 
 }
 
@@ -80,7 +83,10 @@ function voltageRegulator() {
   ctx.lineWidth = 1;
   ctx.font = getFont();
   ctx.textAlign = 'center';
-  ctx.fillText('110V', canvas.width/2 - 100, 70);
+  
+  let Vtext = batteryValue == 'true' ? '110V' : '0V';
+  
+  ctx.fillText(Vtext, canvas.width/2 - 100, 80);
 
 }
 
@@ -94,7 +100,10 @@ function rangeAnxiety() {
   ctx.lineWidth = 1;
   ctx.font = getFont();
   ctx.textAlign = 'center';
-  ctx.fillText('80%', canvas.width/2 + 100, 70);
+  
+  let numberToShow = batteryValue == 'true' ? parseInt(battery) : 0;
+  
+  ctx.fillText(numberToShow + '%', canvas.width/2 + 100, 80);
 
 }
 
@@ -130,7 +139,9 @@ function draw() {
 function updateCar() {
   carVelocityY = parseInt(carVelocityY);
 
-  if (usesTouch == true)
+	let canMove = batteryValue == 'true' && battery > 0;
+
+  if (canMove && usesTouch == true)
   {
     if (deltaY < 0)
     {
@@ -140,32 +151,68 @@ function updateCar() {
     {
       carVelocityY -= carAccelerationY;
     }
+	
+	var wantedDir = playerX - (canvas.width/2 + carX);
+	wantedDir = wantedDir / 10;
+	
+	carVelocityX = -wantedDir;
+	
+	/*
+	if (wantedDir < 0)
+	{
+		carVelocityX -= carAccelerationX;
+	}
+	else if (wantedDir > 0)
+	{
+		carVelocityX += carAccelerationX;
+	}
+	*/
   }
 
-  if (isUpPressed == true)
+  if (canMove && isUpPressed == true)
   {
     carVelocityY += carAccelerationY;
-  } else if (isDownPressed == true)
+  } else if (canMove && isDownPressed == true)
   {
     carVelocityY -= carAccelerationY;
   }
-  else if (usesTouch == false)
+  else if (usesTouch == false || !canMove)
   {
     carVelocityY *= carDeaccelerationY;
   }
 
 
-  if (isLeftPressed == true)
+  if (canMove && isLeftPressed == true)
   {
     carVelocityX += carAccelerationX;
 
-  } else if (isRightPressed == true)
+  } else if (canMove && isRightPressed == true)
   {
     carVelocityX -= carAccelerationX;
   }
-  else {
+  else if (usesTouch == false || !canMove) 
+  {
     carVelocityX *= carDeaccelerationX;
   }
+  
+  if (carVelocityY > maxSpeed)
+  {
+	  carVelocityY = maxSpeed;
+  }
+  else if (carAccelerationY < -maxSpeed)
+  {
+	  carVelocityY = -maxSpeed;
+  }
+  
+  if (carVelocityX > maxSpeed)
+  {
+	  carVelocityX = maxSpeed;
+  }
+  else if (carAccelerationX < -maxSpeed)
+  {
+	  carVelocityX = -maxSpeed;
+  } 
+  
   carX -= carVelocityX;
   carY += carVelocityY;
 
@@ -176,6 +223,10 @@ function updateCar() {
   {
     carX = roadWidth;
   }
+  
+  battery -= Math.abs(carVelocityY) * batteryDrainScale;
+  if (battery < 0)
+	  battery = 0;
 }
 
 function frame() {
@@ -212,7 +263,7 @@ document.addEventListener('touchmove', e => {
     // console.log(`Touch:  x: ${playerX}px, y: ${playerY}px`)
     deltaX = parseInt(touch.clientX - clientX);
     deltaY = parseInt(touch.clientY - clientY);
-    // console.log('myDeltaMoves '+deltaX+' '+ deltaY)
+   //console.log('myDeltaMoves '+deltaX+' '+ deltaY)
     usesTouch = true
   })
 }, false)
