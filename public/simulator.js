@@ -187,8 +187,8 @@ function frame() {
 // document.querySelector('body').addEventListener('click', f1, {capture: false})
 
 document.addEventListener('touchstart', e => {
-  // e.preventDefault(); { passive: false }
   [...e.changedTouches].forEach(touch => {
+    e.preventDefault();
     const dot = document.createElement('div')
     dot.classList.add('dot')
     dot.style.top = `${touch.pageY}px`
@@ -197,8 +197,8 @@ document.addEventListener('touchstart', e => {
     document.body.append(dot)
     clientX = touch.clientX
     clientY = touch.clientY
-  } )
-}, false)
+  });
+}, { passive: false })
 
 document.addEventListener('touchmove', e => {
   // console.log(e);
