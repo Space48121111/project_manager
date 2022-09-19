@@ -3,10 +3,12 @@ const app = express();
 
 const { MongoClient } = require('mongodb');
 const ObjectId = require('mongodb').ObjectId;
-const uri = process.env.MONGODB_URI;
-// const uri = 'mongodb+srv://atlasAdmin:Botpassword1@@cluster0.inryrnd.mongodb.net/?retryWrites=true&w=majority'
+// const uri = process.env.MONGODB_URI;
+const uri = 'mongodb+srv://atlasAdmin:Botpassword1@@cluster0.inryrnd.mongodb.net/?retryWrites=true&w=majority'
 app.use(express.static('public'));
 
+
+// fetch('/data')
 app.get('/data', async function (req, res) {
   const client = new MongoClient(uri, { useUnifiedTopology: true});
   try {
@@ -54,12 +56,11 @@ app.get('/add*', async function(req, res) {
       status: 0
     };
 
-    console.log(obj);
 
     collection.insertOne(obj, function(err, res) {
       if (err)
         console.log(err);
-      console.log('Inserted');
+      console.log('Inserted into db' + obj);
     });
 
     // return 'Success';
@@ -73,10 +74,10 @@ app.get('/add*', async function(req, res) {
 app.get('/del*', async function(req, res) {
   const client = new MongoClient(uri, { useUnifiedTopology: true });
 
-  // fetch('/del'+str)
+  // fetch('/del'+data)
   let parsing = req.url.replace('/del', '');
   parsing = parsing.replaceAll('%20', ' ');
-  console.log('parsing '+parsing);
+  console.log('delParsing '+parsing);
 
   try {
     await client.connect();
@@ -84,12 +85,11 @@ app.get('/del*', async function(req, res) {
     const collection = database.collection('_todo');
 
     var objId = new ObjectId(parsing);
-    console.log(objId);
 
     collection.deleteOne({"_id": objId}, function(err, res) {
       if (err)
         console.log(err);
-      console.log('Deleted');
+      console.log('Deleted '+objId);
     });
 
     // return 'Delete';
@@ -103,10 +103,10 @@ app.get('/del*', async function(req, res) {
 app.get('/next*', async function(req, res) {
   const client = new MongoClient(uri, { useUnifiedTopology: true });
 
-  // fetch('/del'+str)
+  // fetch('/del'+data)
   let parsing = req.url.replace('/next', '');
   parsing = parsing.replaceAll('%20', ' ');
-  console.log('parsing '+parsing);
+  console.log('nextParsing '+parsing);
 
   try {
     await client.connect();
@@ -127,7 +127,6 @@ app.get('/next*', async function(req, res) {
         }}
     ]);
     const hi = await cursor.next();
-    // console.log(hi.msg);
     if (hi.status == undefined)
     {
       hi.status = 0;
@@ -142,7 +141,7 @@ app.get('/next*', async function(req, res) {
     function(err, res) {
       if (err)
         console.log(err);
-      console.log('Updated');
+      console.log('Updated '+objId);
     });
 
     // return 'Next';
@@ -153,11 +152,11 @@ app.get('/next*', async function(req, res) {
 
 
 
-app.listen(process.env.PORT || 3000,
-  () => console.log('Server is running.'));
+// app.listen(process.env.PORT || 3000,
+//   () => console.log('Server is running.'));
 
-// app.listen(8000,
-//   () => console.log('Server is up and running.'));
+app.listen(8000,
+  () => console.log('Server is up and running.'));
 
 
 

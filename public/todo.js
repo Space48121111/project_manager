@@ -1,78 +1,178 @@
-function helper(data, status, divId) {
-  var node = document.getElementById(divId);
-  let format = '';
-  format += '<ul>';
-  for (var i=0; i<data.length; i++) {
-    if (data[i].status != status && data[i].status != undefined)
-      continue;
-    format += '<li>' + data[i].msg + '&nbsp;&nbsp;';
-    if (status != 2)
-    {
-    format += '<button type="button" onclick=nextProcedure('+JSON.stringify(data[i]._id)+')>==>></button>';
-    }
-    format += '<br>' + data[i].time + '&nbsp;&nbsp;'
-    + '<button type="button" onclick=del('+JSON.stringify(data[i]._id)+')>Del</button>';
-    format += '</li>';
+let updating = true;
+let d = false;
+let next = false;
+let list = [];
+
+function update(data, status, divId) {
+  let node = document.getElementById(divId);
+  let str = '';
+  str += '<ul>';
+
+  // stringify for db: buttons need to be created in js file
+  if (divId == 'todo')
+  {
+    str += '&nbsp;&nbsp;&nbsp;&nbsp;<button class="next" type="button" id="next_text" name="next_text" onclick="nextProcedure()">Next</button>'
+    str += '&nbsp;&nbsp;&nbsp;&nbsp;<button class="del" type="button" id="del_text" name="del_text" onclick="delText()">Del</button>'
+
   }
-  format += '</ul>';
-  node.innerHTML = format;
+  else if (divId == 'inprogress')
+  {
+    str += '&nbsp;&nbsp;&nbsp;&nbsp;<button class="next" type="button" id="next_text" name="next_text" onclick="nextProcedure()">Next</button>'
+  }
+  else if (divId == 'done')
+  {
+    str += '&nbsp;&nbsp;&nbsp;&nbsp;<button class="del" type="button" id="del_text_db" name="del_text" onclick="delText_db()">Del</button>'
+  }
+
+  // Object.values(data).forEach(val => console.log(val));
+  for (let i=0; i<data.length; i++) {
+    let stat = data[i].status
+    let inp = data[i].inp
+    console.log('data inp'+inp)
+    console.log('data stat'+stat)
+
+
+    if (stat != undefined && stat != status)
+      continue
+
+    str += '<li>' + data[i].inp + '&nbsp;&nbsp;';
+    str += '<br>' + data[i].time + '&nbsp;&nbsp;';
+
+    // append buttons
+    if (d == true)
+    {
+      str += '&nbsp;<button id="del" type="button" onclick=del_i('+inp+')>-</button>'
+    }
+    if (next == true)
+    {
+      str += '&nbsp;<button id="next" type="button" onclick=nextProcedure_i('+status+')>-></button>'
+    }
+
+   }
+
+  str += '</ul>';
+  node.innerHTML = str;
 }
 
+function load() {
+  let storage = localStorage.getItem('list');
+  console.log(' Full storage '+storage);
 
-let shouldUpdate = true;
+  if (storage != null)
+  {
+    let s = JSON.parse(storage);
 
-// generate all lists
-function generate() {
-  fetch('/data')
-    .then((response) => response.json())
-    .then((data) => {
-      helper(data, 0, 'todo');
-      helper(data, 1, 'inprogress');
-      helper(data, 2, 'done');
+    update(s, 0, 'todo');
+    update(s, 1, 'inprogress');
+    update(s, 2, 'done');
+  }
 
-    })
-};
 
-generate();
+}
+
+load();
 
 
 // input to add todo
 function addTodo() {
-  var inp = document.getElementById('c-inp').value;
+  let inp = document.getElementById('c-inp').value;
+  let id = 1;
+
   if (inp.length > 0)
   {
-    fetch('/add'+inp)
-      // .then((data) => {
-      //   console.log('Sent'+data);
-      // });
+    let ls =
+    {
+      inp: inp,
+      time: new Date(),
+      id: id++,
+      status: 0,
+    }
+
+    list.push(ls);
+    localStorage.setItem('list', JSON.stringify(list));
+    console.log('Inserted to local'+inp)
+
+    // fetch('/add'+inp)
+    //   .then((inp) => {
+    //     console.log('Sent '+inp);
+    //   });
+
+
     document.getElementById('c-inp').value = " ";
-    shouldUpdate = true;
+    updating = true;
   }
-}
-
-function del(str) {
-  fetch('/del'+str)
-    // .then((data) => {
-    //   console.log('Deleted '+data);
-    // });
-    shouldUpdate = true;
 
 }
 
-function nextProcedure(str) {
-  fetch('/next'+str)
-    // .then((data) => {
-    //   console.log('NextProcedure '+data);
-    // });
-    shouldUpdate = true;
+document.addEventListener('keydown', (event) => {
+  if (event.key == 'Enter') {
+    addTodo();
+  }
+}, false);
+
+
+function delText() {
+    d = !d;
+    let d_text = document.getElementById('del_text');
+    if (d)
+    {
+      d_text.innerHTML = "Done"
+    }
+    else
+    {
+      d_text.innerHTML = "Del"
+    }
+    updating = true;
 
 }
+
+function del_i(i) {
+  list.splice(i, 1)
+  console.log('Deleted from local' +i)
+  localStorage.setItem('list', JSON.stringify(list));
+  updating = true;
+}
+
+
+
+function nextProcedure() {
+    next = !next;
+    let n_text = document.getElementById('next_text');
+    if (next)
+    {
+      n_text.innerHTML = "Done"
+    }
+    else
+    {
+      n_text.innerHTML = "Next"
+    }
+
+    updating = true;
+}
+
+
+function nextProcedure_i(s) {
+  if (s == undefined)
+  {
+    s = 0;
+  }
+  else
+  {
+    s += 1;
+  }
+  console.log('Updated to local '+s)
+  localStorage.setItem('list', JSON.stringify(list));
+
+  updating = true;
+}
+
 
 function frame() {
-  if (shouldUpdate == true)
+  if (updating == true)
   {
-    generate();
-    shouldUpdate = false;
+    load();
+    updating = false;
+
   }
 }
 

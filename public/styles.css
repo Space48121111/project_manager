@@ -19,6 +19,14 @@ button {
   color: white;
 }
 
+.del {
+  float: right;
+}
+
+.next {
+  float: right;
+}
+
 .topnav {
   background-color: silver;
   color: white;
