@@ -100,10 +100,6 @@ function initializeContact() {
   
   batteryPos = contact(batteryX-15, batteryY+batteryHeight/2, "+", true, -20);
   batteryNeg = contact(batteryX+batteryWidth+10, batteryY+batteryHeight/2, "-", true, 20);
-
-	addConnection(batteryPos, 0);
-	addConnection(batteryNeg, 1);
-	updateIsBatteryConnected();
 }
 
 initializeContact();
@@ -371,6 +367,12 @@ function loadConnections()
 		conns = JSON.parse(loadedData);
 		
 		updateIsBatteryConnected();
+	}
+	else
+	{
+		addConnection(batteryPos, 0);
+		addConnection(batteryNeg, 1);
+		updateIsBatteryConnected();		
 	}
 }
 
