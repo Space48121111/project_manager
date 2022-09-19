@@ -7,20 +7,55 @@ function update_db(data, status, divId) {
   let str = '';
   str += '<ul>';
 
-  // stringify for db: buttons need to be created in js file
   if (divId == 'todo')
   {
-    str += '&nbsp;&nbsp;&nbsp;&nbsp;<button class="next" type="button" id="next_text_db" name="next_text" onclick="nextProcedure_db()">Next</button>'
-    str += '&nbsp;&nbsp;&nbsp;&nbsp;<button class="del" type="button" id="del_text_db" name="del_text" onclick="delText_db()">Del</button>'
+    if (next)
+    {
+      str += '&nbsp;&nbsp;&nbsp;&nbsp;<button class="next" type="button" id="next_text_db" name="next_text" onclick="nextProcedure_db()">Next</button>'
+
+    }
+    else 
+    {
+      str += '&nbsp;&nbsp;&nbsp;&nbsp;<button class="next" type="button" id="next_text_db" name="next_text" onclick="nextProcedure_db()">Done</button>'
+
+    }
+    if (d)
+    {
+      str += '&nbsp;&nbsp;&nbsp;&nbsp;<button class="del" type="button" id="del_text_db" name="del_text" onclick="delText_db()">Del</button>'
+
+    }
+    else
+    {
+     str += '&nbsp;&nbsp;&nbsp;&nbsp;<button class="del" type="button" id="del_text_db" name="del_text" onclick="delText_db()">Done</button>'
+
+    }
 
   }
   else if (divId == 'inprogress')
   {
-    str += '&nbsp;&nbsp;&nbsp;&nbsp;<button class="next" type="button" id="next_text_db" name="next_text" onclick="nextProcedure_db()">Next</button>'
+    if (next)
+    {
+       str += '&nbsp;&nbsp;&nbsp;&nbsp;<button class="next" type="button" id="next_text_db" name="next_text" onclick="nextProcedure_db()">Next</button>'
+
+    }
+    else
+    {
+      str += '&nbsp;&nbsp;&nbsp;&nbsp;<button class="next" type="button" id="next_text_db" name="next_text" onclick="nextProcedure_db()">Done</button>'
+
+    }
   }
   else if (divId == 'done')
   {
-    str += '&nbsp;&nbsp;&nbsp;&nbsp;<button class="del" type="button" id="del_text_db" name="del_text" onclick="delText_db()">Del</button>'
+    if (d)
+    {
+      str += '&nbsp;&nbsp;&nbsp;&nbsp;<button class="del" type="button" id="del_text_db" name="del_text" onclick="delText_db()">Del</button>'
+
+    }
+    else
+    {
+      str += '&nbsp;&nbsp;&nbsp;&nbsp;<button class="del" type="button" id="del_text_db" name="del_text" onclick="delText_db()">Done</button>'
+
+    }
   }
 
   // Object.values(data).forEach(val => console.log(val));
