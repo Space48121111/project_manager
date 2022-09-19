@@ -9,7 +9,7 @@ function update_db(data, status, divId) {
 
   if (divId == 'todo')
   {
-    if (next)
+    if (!next)
     {
       str += '&nbsp;&nbsp;&nbsp;&nbsp;<button class="next" type="button" id="next_text_db" name="next_text" onclick="nextProcedure_db()">Next</button>'
 
@@ -19,7 +19,7 @@ function update_db(data, status, divId) {
       str += '&nbsp;&nbsp;&nbsp;&nbsp;<button class="next" type="button" id="next_text_db" name="next_text" onclick="nextProcedure_db()">Done</button>'
 
     }
-    if (d)
+    if (!d)
     {
       str += '&nbsp;&nbsp;&nbsp;&nbsp;<button class="del" type="button" id="del_text_db" name="del_text" onclick="delText_db()">Del</button>'
 
@@ -33,7 +33,7 @@ function update_db(data, status, divId) {
   }
   else if (divId == 'inprogress')
   {
-    if (next)
+    if (!next)
     {
        str += '&nbsp;&nbsp;&nbsp;&nbsp;<button class="next" type="button" id="next_text_db" name="next_text" onclick="nextProcedure_db()">Next</button>'
 
@@ -46,7 +46,7 @@ function update_db(data, status, divId) {
   }
   else if (divId == 'done')
   {
-    if (d)
+    if (!d)
     {
       str += '&nbsp;&nbsp;&nbsp;&nbsp;<button class="del" type="button" id="del_text_db" name="del_text" onclick="delText_db()">Del</button>'
 
