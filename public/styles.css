@@ -1,6 +1,8 @@
 body {
   background-color: beige;
   font-family: fantasy;
+  font-size: 16px;
+  font-size: 2vw;
 }
 
 li a {
@@ -56,4 +58,9 @@ a:link {
   border-radius: 50%;
   position: absolute;
   transform: translate(-50%, -50%);
+}
+
+canvas {
+  font-size: 16px;
+  font-size: 1vw;
 }

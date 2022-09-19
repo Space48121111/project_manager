@@ -8,6 +8,12 @@ carImage.src = "car.png";
 const treeImage = new Image(50, 50);
 treeImage.src = "tree.png";
 
+let fontBase = 1000;
+let fontSize = 25;
+
+let radiusBase = 1000;
+let radiusSize = 35;
+
 function drawCar() {
   ctx.drawImage(carImage, canvas.width/2-carImage.width/2+carX, canvas.height/2-carImage.height/2, carImage.width, carImage.height);
 }
@@ -44,21 +50,21 @@ function drawTrees() {
 function instruction() {
   ctx.fillStyle = 'black';
   ctx.lineWidth = 1;
-  ctx.font = '25px verdana';
+  ctx.font = getFont();
   ctx.fillText("Use keys 'wasd' to maneuver", 0, 30);
-  ctx.fillText("Or drag/tap to start/stop", 0, 50);
+  ctx.fillText("Or drag to start/stop", 0, 50);
 
 }
 
 function speedometer() {
   ctx.beginPath();
   ctx.strokeStyle = 'black';
-  ctx.arc(canvas.width/2, 70, 50, 2*Math.PI, 0);
+  ctx.arc(canvas.width/2, 70, getRadius(), 2*Math.PI, 0);
   ctx.stroke();
 
   ctx.fillStyle = 'green';
   ctx.lineWidth = 1;
-  ctx.font = '25px verdana';
+  ctx.font = getFont();
   ctx.textAlign = 'center';
   ctx.fillText(parseInt(carVelocityY), canvas.width/2, 70);
 
@@ -67,31 +73,42 @@ function speedometer() {
 function voltageRegulator() {
   ctx.beginPath();
   ctx.strokeStyle = 'black';
-  ctx.arc(canvas.width-300, 70, 50, 2*Math.PI, 0);
+  ctx.arc(canvas.width/2-100, 70, getRadius(), 2*Math.PI, 0);
   ctx.stroke();
 
   ctx.fillStyle = 'green';
   ctx.lineWidth = 1;
-  ctx.font = '25px verdana';
+  ctx.font = getFont();
   ctx.textAlign = 'center';
-  ctx.fillText('110V', canvas.width - 300, 70);
+  ctx.fillText('110V', canvas.width/2 - 100, 70);
 
 }
 
 function rangeAnxiety() {
   ctx.beginPath();
   ctx.strokeStyle = 'black';
-  ctx.arc(canvas.width-300, 270, 50, 2*Math.PI, 0);
+  ctx.arc(canvas.width/2 + 100, 70, getRadius(), 2*Math.PI, 0);
   ctx.stroke();
 
   ctx.fillStyle = 'green';
   ctx.lineWidth = 1;
-  ctx.font = '25px verdana';
+  ctx.font = getFont();
   ctx.textAlign = 'center';
-  ctx.fillText('80%', canvas.width - 300, 270);
+  ctx.fillText('80%', canvas.width/2 + 100, 70);
 
 }
 
+function getFont() {
+    var ratio = fontSize / fontBase;
+    var size = canvas.width * ratio;
+    return (size|0) + 'px verdana';
+}
+
+function getRadius() {
+    var ratio = radiusSize / radiusBase;
+    var size = canvas.width * ratio;
+    return (size|0);
+}
 
 function draw() {
   ctx.fillStyle = 'silver';
@@ -166,6 +183,8 @@ function frame() {
   updateCar();
   draw();
 }
+
+// document.querySelector('body').addEventListener('click', f1, {capture: false})
 
 document.addEventListener('touchstart', e => {
   // e.preventDefault(); { passive: false }
