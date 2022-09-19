@@ -90,7 +90,7 @@ function voltageRegulator() {
   
   let Vtext = batteryValue == 'true' ? '110V' : '0V';
   
-  ctx.fillText(Vtext, canvas.width/2 - 100, 80);
+  ctx.fillText(Vtext, canvas.width/2 - 100, 70);
 
 }
 
@@ -107,7 +107,7 @@ function rangeAnxiety() {
   
   let numberToShow = batteryValue == 'true' ? parseInt(battery) : 0;
   
-  ctx.fillText(numberToShow + '%', canvas.width/2 + 100, 80);
+  ctx.fillText(numberToShow + '%', canvas.width/2 + 100, 70);
 
 }
 
