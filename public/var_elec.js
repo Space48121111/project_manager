@@ -18,3 +18,9 @@ let hoveredContact = -1;
 let startConnection = -1;
 
 let conns = [];
+
+var batteryPos = -1;
+var batteryNeg = -1;
+var isBatteryConnected = false;
+
+var time = 0;

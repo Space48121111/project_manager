@@ -4,7 +4,6 @@ const ctx = canvas.getContext('2d');
 boardX = canvas.width/2 - boardWidth/2;
 boardY = canvas.height/2 - boardHeight/2;
 
-
 function drawBoard() {
   ctx.fillStyle = 'navy';
   ctx.beginPath();
@@ -17,6 +16,23 @@ function drawBoard() {
   ctx.textAlign = 'center';
   ctx.fillText("PCB Board", boardX+boardWidth/2, boardY+boardHeight/2);
 
+	// background fill
+	if (isBatteryConnected)
+	{
+		var colors = ['#000000', '#000000', '#000000', '#000000',  '#008800', '#00ff00', '#008800'];
+		
+		var colorIndex = time % colors.length;
+		
+		ctx.fillStyle = colors[colorIndex];
+	}
+	else
+	{
+		ctx.fillStyle = 'gray';
+	}
+	
+	ctx.beginPath();
+	ctx.arc(boardX + boardWidth - 20, boardY + 20, 10, 2*Math.PI, 0);
+	ctx.fill();
 }
 
 
@@ -73,6 +89,7 @@ function contact(x, y, type, horizontal, direction) {
 	direction: direction,
   };
   contactPoints.push(obj);
+  return contactPoints.length - 1;
 }
 
 // add contacts into the array
@@ -81,13 +98,45 @@ function initializeContact() {
   contact(boardX+100, boardY, "-", false, -25);
   contact(boardX+150, boardY, "-", false, -30);
   
-  contact(batteryX-15, batteryY+batteryHeight/2, "+", true, -20);
-  contact(batteryX+batteryWidth+10, batteryY+batteryHeight/2, "-", true, 20);
+  batteryPos = contact(batteryX-15, batteryY+batteryHeight/2, "+", true, -20);
+  batteryNeg = contact(batteryX+batteryWidth+10, batteryY+batteryHeight/2, "-", true, 20);
 
 }
 
 initializeContact();
 
+//
+function doesHaveConnection(contact)
+{
+	for (var i=0; i<conns.length; i++)
+	{
+		if (conns[i].start == contact || conns[i].end == contact)
+			return true;
+	}
+	
+	return false;
+}
+
+//
+function areConnectedToEachOther(start, end)
+{
+	for (var i=0; i<conns.length; i++)
+	{
+		if (conns[i].start == start && conns[i].end == end)
+			return true;
+		
+		if (conns[i].start == end && conns[i].end == start)
+			return true;	
+	}
+	
+	return false;
+}
+
+//
+function updateIsBatteryConnected() {
+	isBatteryConnected = doesHaveConnection(batteryPos) && doesHaveConnection(batteryNeg) && !areConnectedToEachOther(batteryPos, batteryNeg);
+	localStorage.setItem('battery', isBatteryConnected);
+}
 
 function battery() {
   ctx.fillStyle = 'navy';
@@ -220,6 +269,7 @@ function draw()
   ctx.beginPath();
   ctx.rect(0, 0, canvas.width, canvas.height);
   ctx.fill();
+  
   drawBoard();
   battery();
   drawConnections();
@@ -240,7 +290,10 @@ function startConnect()
 function stopConnect() 
 {
 	//
-	if (startConnection != -1 && hoveredContact != -1 && startConnection != hoveredContact)
+	if (startConnection != -1 && 
+		hoveredContact != -1 && 
+		startConnection != hoveredContact &&
+		contactPoints[startConnection].type == contactPoints[hoveredContact].type)
 	{
 		addConnection(startConnection, hoveredContact);
 	}
@@ -286,6 +339,9 @@ function removeConnection(contact)
 			conns.splice(i, 1);
 		}
 	}
+	
+	updateIsBatteryConnected();
+	saveConnections();
 }
 
 function addConnection(start, end) 
@@ -299,10 +355,47 @@ function addConnection(start, end)
 	};	
 	
 	conns.push(obj);
+	
+	saveConnections();
+	updateIsBatteryConnected();
 }
+
+function loadConnections() 
+{
+	var loadedData = localStorage.getItem('connections');
+	if (loadedData != null)
+	{
+		conns = JSON.parse(loadedData);
+		
+		updateIsBatteryConnected();
+	}
+}
+
+loadConnections();
+
+function resetConnections() {
+	conns = [];
+	saveConnections();
+	updateIsBatteryConnected();
+}
+
+function saveConnections() 
+{
+	var saveData = JSON.stringify(conns);
+	localStorage.setItem('connections', saveData);
+}
+
+function debugBatteryValue() {
+	var batteryValue = localStorage.getItem('battery');
+	console.log("Battery value is: " + batteryValue);
+}
+
+debugBatteryValue();
 
 function frame() 
 {
+	time++;
+	
 	updateHoveredContact();
 	
 	// updateSchematics();
