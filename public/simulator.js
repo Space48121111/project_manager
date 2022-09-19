@@ -9,10 +9,10 @@ const treeImage = new Image(50, 50);
 treeImage.src = "tree.png";
 
 let fontBase = 1000;
-let fontSize = 25;
+let fontSize = 20;
 
 let radiusBase = 1000;
-let radiusSize = 35;
+let radiusSize = 30;
 
 var batteryValue = localStorage.getItem('battery');
 console.log("Battery value is: " + batteryValue);
@@ -114,12 +114,26 @@ function rangeAnxiety() {
 function getFont() {
     var ratio = fontSize / fontBase;
     var size = canvas.width * ratio;
+	
+	if (size > 32)
+		size = 32;
+	
+	if (size < 5)
+		size = 5;
+	
     return (size|0) + 'px verdana';
 }
 
 function getRadius() {
     var ratio = radiusSize / radiusBase;
     var size = canvas.width * ratio;
+	
+	if (size > 44)
+		size = 44;
+	
+	if (size < 5)
+		size = 5;
+	
     return (size|0);
 }
 
@@ -235,6 +249,8 @@ function updateCar() {
 
 function frame() {
   canvas.width = self.innerWidth - 15;
+  
+
   updateCar();
   draw();
 }
