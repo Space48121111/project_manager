@@ -116,7 +116,6 @@ function addTodo() {
     updating = true;
   }
 
-}
 
 document.addEventListener('keydown', (event) => {
   if (event.key == 'Enter') {
