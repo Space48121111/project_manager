@@ -15,17 +15,17 @@ function update(data, status, divId) {
 	  if (next)
 	  {
 		 str += '&nbsp;&nbsp;&nbsp;&nbsp;<button class="next" type="button" id="next_text" name="next_text" onclick="nextProcedure()">Done</button>'
-	  }	  
-	  else 
+	  }
+	  else
 	  {
 		 str += '&nbsp;&nbsp;&nbsp;&nbsp;<button class="next" type="button" id="next_text" name="next_text" onclick="nextProcedure()">Next</button>'
 	  }
-	
+
 		if (d)
 		{
 			str += '&nbsp;&nbsp;&nbsp;&nbsp;<button class="del" type="button" id="del_text" name="del_text" onclick="delText()">Done</button>'
 		}
-		else 
+		else
 		{
 			str += '&nbsp;&nbsp;&nbsp;&nbsp;<button class="del" type="button" id="del_text" name="del_text" onclick="delText()">Del</button>'
 		}
@@ -41,7 +41,7 @@ function update(data, status, divId) {
   */
 
   // Object.values(data).forEach(val => console.log(val));
-  for (let i=0; i<data.length; i++) 
+  for (let i=0; i<data.length; i++)
   {
     let stat = data[i].status
     let inp = data[i].inp
@@ -108,10 +108,10 @@ function addTodo() {
     localStorage.setItem('list', JSON.stringify(list));
     console.log('Inserted to local'+inp)
 
-    // fetch('/add'+inp)
-    //   .then((inp) => {
-    //     console.log('Sent '+inp);
-    //   });
+    fetch('/add'+inp)
+      .then((inp) => {
+        console.log('Sent '+inp);
+      });
 
 
     document.getElementById('c-inp').value = " ";
@@ -137,7 +137,7 @@ function updateButtons()
     {
       d_text.innerHTML = "Del"
     }
-	
+
 	let n_text = document.getElementById('next_text');
 	if (next)
     {
@@ -146,7 +146,7 @@ function updateButtons()
     else
     {
       n_text.innerHTML = "Next"
-    }	
+    }
 }
 
 function delText() {
