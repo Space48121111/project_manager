@@ -14,7 +14,7 @@ function update_db(data, status, divId) {
       str += '&nbsp;&nbsp;&nbsp;&nbsp;<button class="next" type="button" id="next_text_db" name="next_text" onclick="nextProcedure_db()">Next</button>'
 
     }
-    else 
+    else
     {
       str += '&nbsp;&nbsp;&nbsp;&nbsp;<button class="next" type="button" id="next_text_db" name="next_text" onclick="nextProcedure_db()">Done</button>'
 
@@ -107,21 +107,6 @@ generate();
 // input to add todo
 function addTodo() {
   let inp = document.getElementById('c-inp').value;
-  let id = 1;
-
-  if (inp.length > 0)
-  {
-    let ls =
-    {
-      inp: inp,
-      time: new Date(),
-      id: id++,
-      status: 0,
-    }
-
-    list.push(ls);
-    localStorage.setItem('list', JSON.stringify(list));
-    console.log('Full list' + list)
 
     fetch('/add'+inp)
       .then((inp) => {

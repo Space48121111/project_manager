@@ -4,7 +4,7 @@ const app = express();
 const { MongoClient } = require('mongodb');
 const ObjectId = require('mongodb').ObjectId;
 const uri = process.env.MONGODB_URI;
-//const uri = 'mongodb+srv://atlasAdmin:Botpassword1@@cluster0.inryrnd.mongodb.net/?retryWrites=true&w=majority'
+// const uri = 'mongodb+srv://atlasAdmin:Botpassword1@@cluster0.inryrnd.mongodb.net/?retryWrites=true&w=majority'
 app.use(express.static('public'));
 
 
@@ -155,9 +155,9 @@ app.get('/next*', async function(req, res) {
 app.listen(process.env.PORT || 3000,
    () => console.log('Server is running.'));
 
-//app.listen(8000,
+// app.listen(8000,
 //  () => console.log('Server is up and running.'));
-
+//
 
 
 
