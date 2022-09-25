@@ -109,8 +109,9 @@ function addTodo() {
   let inp = document.getElementById('c-inp').value;
 
     fetch('/add'+inp)
+      .then((res) => res.json())
       .then((inp) => {
-        console.log('Sent '+inp);
+        console.log('Sent to db '+inp);
       });
     document.getElementById('c-inp').value = " ";
     updating = true;
@@ -143,6 +144,7 @@ function delText_db() {
 function del_i_db(data) {
     console.log('To be deleted '+ data)
     fetch('/del'+data)
+    .then((res) => res.json())
     .then((data) => {
        console.log('DB Deleted '+data);
     });
@@ -171,6 +173,7 @@ function nextProcedure_db() {
 function nextProcedure_i_db(data) {
   console.log('To be updated '+ data)
     fetch('/next'+data)
+    .then((res) => res.json())
     .then((data) => {
       console.log('DB NextProcedure '+data);
     });
