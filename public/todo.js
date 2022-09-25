@@ -109,6 +109,7 @@ function addTodo() {
     console.log('Inserted to local'+inp)
 
     fetch('/add'+inp)
+      .then((res) => res.json())	
       .then((inp) => {
         console.log('Sent '+inp);
       });
